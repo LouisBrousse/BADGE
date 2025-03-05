@@ -25,7 +25,7 @@ class TestBadge(unittest.TestCase):
         self.assertTrue(porte.signal_ouverture_reçu)
     
     def test_badge_invalid_badge(self):
-        # Étant donné: Un badge non valide présenté au lecteur
+        # Étant donné: pas de bagde présenté
         lecteur = Lecteurfake()
 
         # ET une porte
