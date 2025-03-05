@@ -6,3 +6,11 @@ class Lecteur(abc.ABC):
     @abc.abstractmethod
     def poll(self) -> int | None:
         pass
+
+    @abc.abstractmethod
+    def bip(self):
+        pass
+
+    @abc.abstractmethod
+    def led(self, r:bool, g:bool, b:bool):
+        pass
