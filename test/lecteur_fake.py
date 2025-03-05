@@ -1,2 +1,3 @@
 class Lecteur:
-    pass
+    def simuler_presentation_badge(self):
+        pass
