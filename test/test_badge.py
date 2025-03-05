@@ -1,33 +1,42 @@
 import unittest
-from lecteur_fake import Lecteur
+import sys
+import os
+
+# Ajouter le dossier 'src' au chemin d'importation
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+
+from lecteur_fake import Lecteurfake
 from porte_spy import PorteSpy
-from src.controlleur_acces import ControlleurAcces
-
-
+from controleur_acces import ControleurAcces
 
 class TestBadge(unittest.TestCase):
     def test_badge_nominal(self):
         # Étant donné: Un badge valide présenté au lecteur
-        lecteur = Lecteur()
-        porte = PorteSpy()
+        lecteur = Lecteurfake()
         lecteur.simuler_presentation_badge()
 
-        # Quand: Interrogation lecteur
-        controller = ControleurAcces()
-        controller.interoger_lecteur(lecteur, porte)
+        # ET une porte
+        porte = PorteSpy()
+
+        # Quand: Interrogation du lecteur
+        ControleurAcces(porte, lecteur).interroger_lecteur()
 
         # Alors: signal d’ouverture (accès donné ou pas)
-
-        self.assertTrue(porte.ouverture_porte)
+        self.assertTrue(porte.signal_ouverture_reçu)
     
     def test_badge_invalid_badge(self):
-        # Étant donné: Un badge non-valide présenté au lecteur
+        # Étant donné: Un badge non valide présenté au lecteur
+        lecteur = Lecteurfake()
+
+        # ET une porte
+        porte = PorteSpy()
 
         # Quand: interrogation lecteur
-        
-        # Alors: la porte se déverrouille (accès donné ou pas)
-        self.assertEqual(1, 1)
+        ControleurAcces(porte, lecteur).interroger_lecteur()
 
+        # Alors: la porte ne doit pas se déverrouiller
+        self.assertFalse(porte.signal_ouverture_reçu)
 
-
+if __name__ == "__main__":
+    unittest.main()
 
