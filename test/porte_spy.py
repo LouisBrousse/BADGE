@@ -7,3 +7,7 @@ class PorteSpy(Porte):
 
     def demander_ouverture(self):
         self.signal_ouverture_reçu = True
+
+class Portedefaillante(Porte):
+    def demander_ouverture(self):
+        raise Exception()
