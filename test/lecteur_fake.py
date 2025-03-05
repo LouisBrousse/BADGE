@@ -1,0 +1,2 @@
+class Lecteur:
+    pass
