@@ -4,7 +4,7 @@ from lecteur import Lecteur
 class Lecteurfake(Lecteur):
   
     def led(self, r: bool, g: bool, b: bool):
-        self.couleur_affiches.add((r, g, b))
+        self.couleur_affiches.append((r, g, b))
 
     
     def bip(self):

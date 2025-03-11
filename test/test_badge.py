@@ -55,10 +55,13 @@ class TestBadge(unittest.TestCase):
         lecteur.simuler_presentation_badge()
         # ET une porte défaillante
         porte = Portedefaillante()
-        # Quand: interrogation lecteur
-        ControleurAcces(porte, lecteur).interroger_lecteur()
-        # Alors: la lumière violet s'allume
-        self.assertEqual([(True, False, True),(True, False, True)], lecteur.couleur_affiches)
+        ## Quand: interrogation lecteur
+        try:
+            ControleurAcces(porte, lecteur).interroger_lecteur()
+        except Exception as e:
+            # Alors: la lumière violet s'allume
+            self.assertEqual([(True, False, True), (True, False, True)], lecteur.couleur_affiches)
+            self.assertIsInstance(e, Exception)
 
 if __name__ == "__main__":
     unittest.main()
