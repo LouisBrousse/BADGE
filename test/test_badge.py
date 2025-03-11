@@ -55,12 +55,37 @@ class TestBadge(unittest.TestCase):
         lecteur.simuler_presentation_badge()
         # ET une porte défaillante
         porte = Portedefaillante()
-        ## Quand: interrogation lecteur
+        # Quand: interrogation lecteur
         try:
             ControleurAcces(porte, lecteur).interroger_lecteur()
         except Exception as e:
             # Alors: la lumière violet s'allume
             self.assertEqual([(True, False, True), (True, False, True)], lecteur.couleur_affiches)
+            self.assertIsInstance(e, Exception)
+    
+    def test_signal_ouvert_bip(self):
+        # Étant donné: Un badge valide présenté au lecteur
+        lecteur = Lecteurfake()
+        lecteur.simuler_presentation_badge()
+        # ET une porte
+        porte = PorteSpy()
+        # Quand: interrogation lecteur
+        ControleurAcces(porte, lecteur).interroger_lecteur()
+        # Alors: un bip retentit
+        self.assertEqual(1, lecteur.nombre_appels_bip)
+
+    def test_signal_non_ouvert_bip(self):
+        # Étant donné: Un badge valide présenté au lecteur
+        lecteur = Lecteurfake()
+        lecteur.simuler_presentation_badge()
+        # ET une porte défaillante
+        porte = Portedefaillante()
+        # Quand: interrogation lecteur
+        try:
+            ControleurAcces(porte, lecteur).interroger_lecteur()
+        except Exception as e:
+            # Alors: 2 bips retentissent
+            self.assertEqual(2, lecteur.nombre_appels_bip)
             self.assertIsInstance(e, Exception)
 
 if __name__ == "__main__":

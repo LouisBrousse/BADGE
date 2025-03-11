@@ -8,7 +8,7 @@ class Lecteur(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def bip(self):
+    def bip(self) -> int | None:
         pass
 
     @abc.abstractmethod
