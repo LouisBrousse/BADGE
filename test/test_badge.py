@@ -14,26 +14,20 @@ class TestBadge(unittest.TestCase):
         # Étant donné: Un badge valide présenté au lecteur
         lecteur = Lecteurfake()
         lecteur.simuler_presentation_badge()
-
         # ET une porte
         porte = PorteSpy()
-
         # Quand: Interrogation du lecteur
         ControleurAcces(porte, lecteur).interroger_lecteur()
-
         # Alors: signal d’ouverture (accès donné ou pas)
         self.assertTrue(porte.signal_ouverture_reçu)
     
     def test_badge_invalid_badge(self):
         # Étant donné: pas de bagde présenté
         lecteur = Lecteurfake()
-
         # ET une porte
         porte = PorteSpy()
-
         # Quand: interrogation lecteur
         ControleurAcces(porte, lecteur).interroger_lecteur()
-
         # Alors: la porte ne doit pas se déverrouiller
         self.assertFalse(porte.signal_ouverture_reçu)
         self.assertEqual([], lecteur.couleur_affiches)
@@ -49,7 +43,7 @@ class TestBadge(unittest.TestCase):
         # Alors: la lumière vert s'allume
         self.assertEqual([(False, True, False)], lecteur.couleur_affiches)
 
-    def test_badge_lumiere_violet(self):
+    def test_badge_lumiere_violette(self):
         # Étant donné: Un badge valide présenté au lecteur
         lecteur = Lecteurfake()
         lecteur.simuler_presentation_badge()
@@ -59,7 +53,7 @@ class TestBadge(unittest.TestCase):
         try:
             ControleurAcces(porte, lecteur).interroger_lecteur()
         except Exception as e:
-            # Alors: la lumière violet s'allume
+            # Alors: la lumière violette s'allume
             self.assertEqual([(True, False, True), (True, False, True)], lecteur.couleur_affiches)
             self.assertIsInstance(e, Exception)
     
@@ -114,8 +108,53 @@ class TestBadge(unittest.TestCase):
             # Alors: 2 bips retentissent
             self.assertEqual(2, lecteur.nombre_appels_bip)
             self.assertIsInstance(e, Exception)
-            # Et la lumière violet s'allume 2 fois
+            # Et la lumière violette s'allume 2 fois
             self.assertEqual([(True, False, True), (True, False, True)], lecteur.couleur_affiches)
+    
+    def test_badge_lumiere_ouvert(self):
+        # Étant donné: Un badge valide présenté au lecteur
+        lecteur = Lecteurfake()
+        lecteur.simuler_presentation_badge()
+        # ET une porte
+        porte = PorteSpy()
+        # Quand: Interrogation du lecteur
+        ControleurAcces(porte, lecteur).interroger_lecteur()
+        # Alors: signal d’ouverture (accès donné ou pas)
+        self.assertTrue(porte.signal_ouverture_reçu)
+        # Et la lumière verte s'allume
+        self.assertEqual([(False, True, False)], lecteur.couleur_affiches)
+
+    def test_badge_bip_ouvert(self):
+        # Étant donné: Un badge valide présenté au lecteur
+        lecteur = Lecteurfake()
+        lecteur.simuler_presentation_badge()
+        # ET une porte
+        porte = PorteSpy()
+        # Quand: Interrogation du lecteur
+        ControleurAcces(porte, lecteur).interroger_lecteur()
+        # Alors: signal d’ouverture (accès donné ou pas)
+        self.assertTrue(porte.signal_ouverture_reçu)
+        # Et un bip retentit
+        self.assertEqual(1, lecteur.nombre_appels_bip)
+    
+    def test_badge_lumiere_bip_ouvert(self):
+        # Étant donné: Un badge valide présenté au lecteur
+        lecteur = Lecteurfake()
+        lecteur.simuler_presentation_badge()
+        # ET une porte
+        porte = PorteSpy()
+        # Quand: Interrogation du lecteur
+        ControleurAcces(porte, lecteur).interroger_lecteur()
+        # Alors: signal d’ouverture (accès donné ou pas)
+        self.assertTrue(porte.signal_ouverture_reçu)
+        # Et la lumière verte s'allume
+        self.assertEqual([(False, True, False)], lecteur.couleur_affiches)
+        # Et un bip retentit
+        self.assertEqual(1, lecteur.nombre_appels_bip)
+
+    
+    
+    
     
 
 if __name__ == "__main__":

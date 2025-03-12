@@ -14,9 +14,8 @@ class ControleurAcces:
                 self.__lecteur.led(False, True, False)  # Lumière verte
                 self.__lecteur.bip()
             except Exception:
-                self.__lecteur.led(True, False, True)  # Lumière violette
-                self.__lecteur.bip()
-                self.__lecteur.led(True, False, True)  # Lumière violette
-                self.__lecteur.bip()
+                for i in range(2):
+                    self.__lecteur.led(True, False, True)  # Lumière violette
+                    self.__lecteur.bip()
                 raise
         
