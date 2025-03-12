@@ -10,4 +10,4 @@ class PorteSpy(Porte):
 
 class Portedefaillante(Porte):
     def demander_ouverture(self):
-        raise Exception()
+        raise Exception("Porte défaillante")
