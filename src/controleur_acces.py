@@ -11,11 +11,24 @@ class ControleurAcces:
         if self.__lecteur.poll() is not None:
             try:
                 self.__porte.demander_ouverture()
-                self.__lecteur.led(False, True, False)  # Lumière verte
-                self.__lecteur.bip()
+                self.led_positif()  # Lumière verte
+                self.bip_positif()  # Lumière verte
+                
             except Exception:
-                for i in range(2):
-                    self.__lecteur.led(True, False, True)  # Lumière violette
-                    self.__lecteur.bip()
+                self.led_negatif()  # Lumière violette
+                self.bip_negatif()
                 raise
-        
+    
+    def bip_positif(self):
+        self.__lecteur.bip()
+
+    def bip_negatif(self):
+        for i in range(2):
+            self.__lecteur.bip()
+    
+    def led_positif(self):
+        self.__lecteur.led(False, True, False)
+
+    def led_negatif(self):
+        for i in range(2):
+            self.__lecteur.led(True, False, True)
