@@ -8,13 +8,15 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 's
 from lecteur_fake import Lecteurfake
 from porte_spy import PorteSpy, Portedefaillante
 from controleur_acces import ControleurAcces
+from badge import Badge
 
 class TestLed (unittest.TestCase):
     
     def test_badge_lumiere_verte(self):
             # Étant donné: Un badge valide présenté au lecteur
+            badge = Badge()
             lecteur = Lecteurfake()
-            lecteur.simuler_presentation_badge()
+            lecteur.simuler_presentation_badge(badge)
             # ET une porte
             porte = PorteSpy()
             # Quand: interrogation lecteur
@@ -24,8 +26,9 @@ class TestLed (unittest.TestCase):
 
     def test_badge_lumiere_violette(self):
         # Étant donné: Un badge valide présenté au lecteur
+        badge = Badge()
         lecteur = Lecteurfake()
-        lecteur.simuler_presentation_badge()
+        lecteur.simuler_presentation_badge(badge)
         # ET une porte défaillante
         porte = Portedefaillante()
         # Quand: interrogation lecteur
@@ -48,8 +51,9 @@ class TestLed (unittest.TestCase):
     
     def test_badge_led_defaillant(self):
         # Étant donné: Un badge valide présenté au lecteur
+        badge = Badge()
         lecteur = Lecteurfake()
-        lecteur.simuler_presentation_badge()   
+        lecteur.simuler_presentation_badge(badge)   
         # ET une porte
         porte = PorteSpy()
         # ET une défaillance de la lumière

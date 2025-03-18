@@ -1,7 +1,6 @@
 from lecteur import Lecteur
 from porte import Porte
 
-
 class ControleurAcces:
     def __init__(self, porte: Porte, lecteur: Lecteur):
         self.__lecteur = lecteur
@@ -18,7 +17,9 @@ class ControleurAcces:
                 self.led_negatif()  # Lumière violette
                 self.bip_negatif()
                 raise
-    
+        if self.__lecteur.controle_admin():
+            self.bip_negatif()
+
     def bip_positif(self):
         self.__lecteur.bip()
 
