@@ -30,7 +30,7 @@ class Lecteurfake(Lecteur):
         self.__numero_badge_detecte = None
         return numero_detecte
 
-    def simuler_presentation_badge(self) -> int | None:
+    def simuler_presentation_badge(self) -> None:
         self.__numero_badge_detecte = 0
     
 
