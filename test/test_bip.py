@@ -28,8 +28,7 @@ class TestBip(unittest.TestCase):
         # ET une porte défaillante
         porte = Portedefaillante()
         # Quand: interrogation lecteur
-        with self.assertRaises(Exception):
-            ControleurAcces(porte, lecteur).interroger_lecteur()
+        ControleurAcces(porte, lecteur).interroger_lecteur()
         # Alors: 2 bips retentissent
         self.assertEqual(2, lecteur.nombre_appels_bip)
             
@@ -53,8 +52,7 @@ class TestBip(unittest.TestCase):
         # ET une défaillance du bip
         lecteur.simuler_defaillance_bip()
         # Quand: interrogation lecteur
-        with self.assertRaises(Exception):
-            ControleurAcces(porte, lecteur).interroger_lecteur()
+        ControleurAcces(porte, lecteur).interroger_lecteur()
         # Alors: aucun bip ne retentit
         self.assertEqual(0, lecteur.nombre_appels_bip)
             

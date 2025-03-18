@@ -4,7 +4,8 @@ class Lecteurfake(Lecteur):
   
     def led(self, r: bool, g: bool, b: bool):
         if self.defaillance_led:
-            raise Exception("Signal Lumineux défaillant")
+            self.couleur_affiches.append((False, False, False))
+            return
         self.couleur_affiches.append((r, g, b))
     
     def simuler_defaillance_led(self) -> None:
@@ -12,7 +13,7 @@ class Lecteurfake(Lecteur):
     
     def bip(self) -> int | None:
         if self.defaillance_bip:
-            raise Exception("Signal Sonore défaillant")
+            return
         self.nombre_appels_bip += 1
     
     def simuler_defaillance_bip(self) -> None:

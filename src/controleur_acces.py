@@ -17,7 +17,9 @@ class ControleurAcces:
             except Exception:
                 self.led_negatif()  # Lumière violette
                 self.bip_negatif()
-                raise
+        else:
+            self.led_aucun()  # Lumière éteinte
+                
     
     def bip_positif(self):
         self.__lecteur.bip()
@@ -32,3 +34,6 @@ class ControleurAcces:
     def led_negatif(self):
         for i in range(2):
             self.__lecteur.led(True, False, True)
+    
+    def led_aucun(self):
+        self.__lecteur.led(False, False, False)
