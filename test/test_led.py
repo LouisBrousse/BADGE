@@ -29,12 +29,10 @@ class TestLed (unittest.TestCase):
         # ET une porte défaillante
         porte = Portedefaillante()
         # Quand: interrogation lecteur
-        try:
+        with self.assertRaises(Exception):
             ControleurAcces(porte, lecteur).interroger_lecteur()
-        except Exception as e:
-            # Alors: la lumière violette s'allume
-            self.assertEqual([(True, False, True), (True, False, True)], lecteur.couleur_affiches)
-            self.assertIsInstance(e, Exception)
+        # Alors: la lumière violette s'allume
+        self.assertEqual([(True, False, True), (True, False, True)], lecteur.couleur_affiches)
     
     def test_badge_invalid_led(self):
         # Étant donné: pas de bagde présenté
@@ -49,14 +47,13 @@ class TestLed (unittest.TestCase):
     def test_badge_led_defaillant(self):
         # Étant donné: Un badge valide présenté au lecteur
         lecteur = Lecteurfake()
-        lecteur.simuler_presentation_badge()   
+        lecteur.simuler_presentation_badge()
         # ET une porte
         porte = PorteSpy()
         # ET une défaillance de la lumière
         lecteur.simuler_defaillance_led()
         # Quand: interrogation lecteur
-        try:
+        with self.assertRaises(Exception):
             ControleurAcces(porte, lecteur).interroger_lecteur()
-        except Exception as e:
-            # Et: une exception est levée
-            self.assertIsInstance(e, Exception)
+        # Et: une exception est levée
+        self.assertEqual(0, lecteur.nombre_appels_bip)

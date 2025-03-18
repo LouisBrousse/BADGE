@@ -28,12 +28,11 @@ class TestBip(unittest.TestCase):
         # ET une porte défaillante
         porte = Portedefaillante()
         # Quand: interrogation lecteur
-        try:
+        with self.assertRaises(Exception):
             ControleurAcces(porte, lecteur).interroger_lecteur()
-        except Exception as e:
-            # Alors: 2 bips retentissent
-            self.assertEqual(2, lecteur.nombre_appels_bip)
-            self.assertIsInstance(e, Exception)
+        # Alors: 2 bips retentissent
+        self.assertEqual(2, lecteur.nombre_appels_bip)
+            
     
     def test_badge_invalid_bip(self):
         # Étant donné: pas de bagde présenté
@@ -54,10 +53,8 @@ class TestBip(unittest.TestCase):
         # ET une défaillance du bip
         lecteur.simuler_defaillance_bip()
         # Quand: interrogation lecteur
-        try:
+        with self.assertRaises(Exception):
             ControleurAcces(porte, lecteur).interroger_lecteur()
-        except Exception as e:
-            # Alors: aucun bip ne retentit
-            self.assertEqual(0, lecteur.nombre_appels_bip)
-            # Et: une exception est levée
-            self.assertIsInstance(e, Exception)
+        # Alors: aucun bip ne retentit
+        self.assertEqual(0, lecteur.nombre_appels_bip)
+            
