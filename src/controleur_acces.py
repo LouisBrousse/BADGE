@@ -9,14 +9,12 @@ class ControleurAcces:
 
     def interroger_lecteur(self):
         if self.__lecteur.poll() is not None:
-            try:
-                self.__porte.demander_ouverture()
+            if self.__porte.demander_ouverture():
                 self.led_positif()  # Lumière verte
-                self.bip_positif()  # Lumière verte
-                
-            except Exception:
+                self.bip_positif()  # Bip positif
+            else:
                 self.led_negatif()  # Lumière violette
-                self.bip_negatif()
+                self.bip_negatif()  # Bip négatif
         else:
             self.led_aucun()  # Lumière éteinte
                 
