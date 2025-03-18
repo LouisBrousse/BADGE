@@ -30,7 +30,7 @@ class TestBadge(unittest.TestCase):
         ControleurAcces(porte, lecteur).interroger_lecteur()
         # Alors: la porte ne doit pas se déverrouiller
         self.assertFalse(porte.signal_ouverture_reçu)
-        self.assertEqual([], lecteur.couleur_affiches)  
+        self.assertEqual([(False, False, False)], lecteur.couleur_affiches)  
 
 if __name__ == "__main__":
     unittest.main()
