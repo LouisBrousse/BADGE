@@ -12,15 +12,15 @@ from controleur_acces import ControleurAcces
 class TestLed (unittest.TestCase):
     
     def test_badge_lumiere_verte(self):
-            # Étant donné: Un badge valide présenté au lecteur
-            lecteur = Lecteurfake()
-            lecteur.simuler_presentation_badge()
-            # ET une porte
-            porte = PorteSpy()
-            # Quand: interrogation lecteur
-            ControleurAcces(porte, lecteur).interroger_lecteur()
-            # Alors: la lumière vert s'allume
-            self.assertEqual([(False, True, False)], lecteur.couleur_affiches)
+        # Étant donné: Un badge valide présenté au lecteur
+        lecteur = Lecteurfake()
+        lecteur.simuler_presentation_badge()
+        # ET une porte
+        porte = PorteSpy()
+        # Quand: interrogation lecteur
+        ControleurAcces(porte, lecteur).interroger_lecteur()
+        # Alors: la lumière vert s'allume
+        self.assertEqual([(False, True, False)], lecteur.couleur_affiches)
 
     def test_badge_lumiere_violette(self):
         # Étant donné: Un badge valide présenté au lecteur

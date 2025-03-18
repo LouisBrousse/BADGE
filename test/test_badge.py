@@ -6,7 +6,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
 from lecteur_fake import Lecteurfake
-from porte_spy import PorteSpy, Portedefaillante
+from porte_spy import PorteSpy
 from controleur_acces import ControleurAcces
 
 class TestBadge(unittest.TestCase):
