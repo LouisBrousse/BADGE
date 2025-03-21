@@ -19,12 +19,19 @@ class Lecteurfake(Lecteur):
     def simuler_defaillance_bip(self) -> None:
         self.defaillance_bip = True
     
+    # def simuler_badge_bloque(self) -> None:
+    #     self.defaillance_bip = True
+
+    def simuler_badge_bloque(self) -> None:
+        self.badgebloque = True
+    
     def __init__(self) -> None:
         self.__numero_badge_detecte = None
         self.nombre_appels_bip = 0
         self.couleur_affiches = []
         self.defaillance_led = False
         self.defaillance_bip = False
+        self.badgebloque= False
 
     def poll(self) -> int | None:
         numero_detecte = self.__numero_badge_detecte
@@ -33,5 +40,9 @@ class Lecteurfake(Lecteur):
 
     def simuler_presentation_badge(self) -> None:
         self.__numero_badge_detecte = 0
+    
+    def isBadgeBlocked(self):
+        return self.badgebloque
+    
     
 

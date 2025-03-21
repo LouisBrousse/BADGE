@@ -6,7 +6,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
 from lecteur_fake import Lecteurfake
-from porte_spy import Portedefaillante
+from porte_spy import PorteSpy
 from controleur_acces import ControleurAcces
 
 class TestBadgeBloque(unittest.TestCase):
@@ -15,24 +15,28 @@ class TestBadgeBloque(unittest.TestCase):
         # Étant donné: Un badge bloqué présenté au lecteur
         lecteur = Lecteurfake()
         lecteur.simuler_presentation_badge()
-        # ET une porte qui refuse l'ouverture (badge bloqué)
-        porte = Portedefaillante()
+        # ET une porte
+        porte = PorteSpy()
+        # ET un badge bloqué
+        lecteur.simuler_badge_bloque()
         # Quand: interrogation du lecteur
         ControleurAcces(porte, lecteur).interroger_lecteur()
-        # Alors: la led violette (rouge + bleu) clignote deux fois
-        self.assertEqual([(True, False, True), (True, False, True)], lecteur.couleur_affiches)
+        # Alors: la led rouge (rouge + bleu) clignote deux fois
+        self.assertEqual([(True, False, False), (True, False, False)], lecteur.couleur_affiches)
 
     def test_badge_bloque_acces_refuse(self):
         # Étant donné: Un badge bloqué présenté au lecteur
         lecteur = Lecteurfake()
         lecteur.simuler_presentation_badge()
-        # ET une porte qui refuse l'ouverture
-        porte = Portedefaillante()
+        # ET une porte
+        porte = PorteSpy()
+        # ET un badge bloqué
+        lecteur.simuler_badge_bloque()
         # Quand: interrogation du lecteur
         ControleurAcces(porte, lecteur).interroger_lecteur()
         # Alors: accès non autorisé (pas d'ouverture)
         # Et led violette clignote deux fois
-        self.assertEqual([(True, False, True), (True, False, True)], lecteur.couleur_affiches)
+        self.assertEqual([(True, False, False), (True, False, False)], lecteur.couleur_affiches)
 
 if __name__ == "__main__":
     unittest.main()

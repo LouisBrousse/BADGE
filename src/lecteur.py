@@ -8,6 +8,10 @@ class Lecteur(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def isBadgeBlocked(self) -> bool:
+        pass
+
+    @abc.abstractmethod
     def bip(self) -> int | None:
         pass
 

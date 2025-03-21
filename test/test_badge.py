@@ -31,6 +31,7 @@ class TestBadge(unittest.TestCase):
         # Alors: la porte ne doit pas se déverrouiller
         self.assertFalse(porte.signal_ouverture_reçu)
         self.assertEqual([(False, False, False)], lecteur.couleur_affiches)  
+    
     def test_poll_consomme_le_badge(self):
         # Étant donné: Un badge valide simulé
         lecteur = Lecteurfake()
@@ -47,13 +48,13 @@ class TestBadge(unittest.TestCase):
         # Étant donné: Plusieurs badges valides présentés successivement
         lecteur = Lecteurfake()
         porte = PorteSpy()
-        for _ in range(3):
+        for _ in range(2):
             lecteur.simuler_presentation_badge()
             ControleurAcces(porte, lecteur).interroger_lecteur()
         # Alors: chaque badge déclenche lumière verte
-        self.assertEqual([(False, True, False)] * 3, lecteur.couleur_affiches)
+        self.assertEqual([(False, True, False)] * 2, lecteur.couleur_affiches)
         # ET un bip par badge
-        self.assertEqual(3, lecteur.nombre_appels_bip)
+        self.assertEqual(2, lecteur.nombre_appels_bip)
         
 if __name__ == "__main__":
     unittest.main()

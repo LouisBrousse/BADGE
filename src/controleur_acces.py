@@ -9,14 +9,17 @@ class ControleurAcces:
 
     def interroger_lecteur(self):
         if self.__lecteur.poll() is not None:
-            if self.__porte.demander_ouverture():
-                self.led_positif()  # Lumière verte
-                self.bip_positif()  # Bip positif
+            if self.__lecteur.isBadgeBlocked():
+                self.led_bloque()
             else:
-                self.led_negatif()  # Lumière violette
-                self.bip_negatif()  # Bip négatif
+                if self.__porte.demander_ouverture():
+                    self.led_positif()  
+                    self.bip_positif()  
+                else:
+                    self.led_negatif()  
+                    self.bip_negatif()  
         else:
-            self.led_aucun()  # Lumière éteinte
+            self.led_aucun()
                 
     
     def bip_positif(self):
@@ -33,5 +36,9 @@ class ControleurAcces:
         for i in range(2):
             self.__lecteur.led(True, False, True)
     
+    def led_bloque(self):
+        for i in range(2):
+            self.__lecteur.led(True, False, False)
+
     def led_aucun(self):
         self.__lecteur.led(False, False, False)
