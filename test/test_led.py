@@ -55,3 +55,19 @@ class TestLed (unittest.TestCase):
         ControleurAcces(porte, lecteur).interroger_lecteur()
         # Et: aucun signal lumineux
         self.assertEqual([(False, False, False)], lecteur.couleur_affiches)
+    
+    def test_led_ne_reagit_pas_quand_defaillante(self):
+        # Étant donné: Un badge valide présenté au lecteur
+        lecteur = Lecteurfake()
+        lecteur.simuler_presentation_badge()
+        # ET une porte
+        porte = PorteSpy()
+        # ET une défaillance de la led
+        lecteur.simuler_defaillance_led()
+        # Quand: interrogation lecteur
+        ControleurAcces(porte, lecteur).interroger_lecteur()
+        # Alors: aucune couleur ne s’affiche (led HS)
+        self.assertEqual([(False, False, False)], lecteur.couleur_affiches)
+        
+if __name__ == "__main__":
+    unittest.main()

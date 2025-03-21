@@ -55,4 +55,20 @@ class TestBip(unittest.TestCase):
         ControleurAcces(porte, lecteur).interroger_lecteur()
         # Alors: aucun bip ne retentit
         self.assertEqual(0, lecteur.nombre_appels_bip)
+    
+    def test_badge_bloque_bip_defaillant(self):
+        # Étant donné: Un badge valide présenté au lecteur
+        lecteur = Lecteurfake()
+        lecteur.simuler_presentation_badge()
+        # ET une porte défaillante
+        porte = Portedefaillante()
+        # ET une défaillance du bip
+        lecteur.simuler_defaillance_bip()
+        # Quand: interrogation lecteur
+        ControleurAcces(porte, lecteur).interroger_lecteur()
+        # Alors: aucun bip ne retentit malgré l'accès refusé
+        self.assertEqual(0, lecteur.nombre_appels_bip)
+
+if __name__ == "__main__":
+    unittest.main()
             
