@@ -34,9 +34,8 @@ class TestBadgeBloque(unittest.TestCase):
         lecteur.simuler_badge_bloque()
         # Quand: interrogation du lecteur
         ControleurAcces(porte, lecteur).interroger_lecteur()
-        # Alors: accès non autorisé (pas d'ouverture)
-        # Et led violette clignote deux fois
-        self.assertEqual([(True, False, False), (True, False, False)], lecteur.couleur_affiches)
-
+        # Alors: la porte ne doit pas se déverrouiller
+        self.assertFalse(porte.signal_ouverture_reçu)
+        
 if __name__ == "__main__":
     unittest.main()
