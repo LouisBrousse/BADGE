@@ -64,3 +64,28 @@ class TestLed (unittest.TestCase):
         except Exception as e:
             # Et: une exception est levée
             self.assertIsInstance(e, Exception)
+            # Alors: la lumière verte s'allume
+    def test_defaillance_led_et_bip(self):
+        # Étant donné : Un badge valide présenté au lecteur
+        badge = Badge()
+        lecteur = Lecteurfake()
+        lecteur.simuler_presentation_badge(badge)
+    
+        # ET une porte
+        porte = PorteSpy()
+    
+        # ET une défaillance de la lumière ET du bip
+        lecteur.simuler_defaillance_led()
+        lecteur.simuler_defaillance_bip()
+
+        # Quand : interrogation lecteur
+        with self.assertRaises(Exception):
+            ControleurAcces(porte, lecteur).interroger_lecteur()
+
+        # Alors : aucun bip n’a retenti
+        self.assertEqual(0, lecteur.nombre_appels_bip)
+
+        # Et : aucune couleur n’a pu être affichée
+        self.assertEqual(0, len(lecteur.couleur_affiches))
+if __name__ == "__main__":
+    unittest.main()

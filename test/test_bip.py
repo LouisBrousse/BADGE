@@ -78,3 +78,6 @@ class TestBip(unittest.TestCase):
         ControleurAcces(porte, lecteur).interroger_lecteur()
         # Alors: 2 bips retentissent
         self.assertEqual(2, lecteur.nombre_appels_bip)
+
+if __name__ == "__main__":
+    unittest.main()

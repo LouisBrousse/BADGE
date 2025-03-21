@@ -8,17 +8,24 @@ class ControleurAcces:
 
     def interroger_lecteur(self):
         if self.__lecteur.poll() is not None:
+            if self.__lecteur.controle_admin():  # Si badge bloqué
+                self.led_badge_bloque()
+                self.bip_negatif()
+                return  # Ne pas ouvrir la porte
+        
             try:
                 self.__porte.demander_ouverture()
                 self.led_positif()  # Lumière verte
-                self.bip_positif()  # Lumière verte
-                
+                self.bip_positif()
             except Exception:
                 self.led_negatif()  # Lumière violette
                 self.bip_negatif()
                 raise
-        if self.__lecteur.controle_admin():
-            self.bip_negatif()
+
+    def led_badge_bloque(self):
+        for _ in range(2):  
+            self.__lecteur.led(True, False, False)  # Lumière rouge
+
 
     def bip_positif(self):
         self.__lecteur.bip()

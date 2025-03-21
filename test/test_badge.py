@@ -41,6 +41,60 @@ class TestBadge(unittest.TestCase):
         self.assertFalse(porte.signal_ouverture_reçu)
         self.assertEqual([], lecteur.couleur_affiches)
 
+    def test_enchainement_badges(self):
+        # Étant donné : Deux badges valides présentés successivement
+        lecteur = Lecteurfake()
+        porte = PorteSpy()
+
+        badge1 = Badge()
+        badge2 = Badge()
+        badge2.numero = 42
+
+        lecteur.simuler_presentation_badge(badge1)
+        ControleurAcces(porte, lecteur).interroger_lecteur()
+
+        lecteur.simuler_presentation_badge(badge2)
+        ControleurAcces(porte, lecteur).interroger_lecteur()
+
+        # Alors : deux bips retentissent (un pour chaque badge)
+        self.assertEqual(2, lecteur.nombre_appels_bip)
+        # Et : deux signaux lumineux ont été affichés
+        self.assertEqual(2, len(lecteur.couleur_affiches))
+
+
+    def test_badge_avec_numero_unique(self):
+        # Étant donné : Un badge avec un numéro spécifique
+        badge = Badge()
+        badge.numero = 999
+        lecteur = Lecteurfake()
+        lecteur.simuler_presentation_badge(badge)
+    
+        # ET une porte
+        porte = PorteSpy()
+
+        # Quand : interrogation du lecteur
+        ControleurAcces(porte, lecteur).interroger_lecteur()
+
+        # Alors : la porte s’ouvre
+        self.assertTrue(porte.signal_ouverture_reçu)
+
+
+    def test_badge_non_represente_apres_poll(self):
+        # Étant donné : Un badge valide présenté une seule fois
+        badge = Badge()
+        lecteur = Lecteurfake()
+        lecteur.simuler_presentation_badge(badge)
+        porte = PorteSpy()
+
+        # Quand : interrogation une première fois (le badge est consommé)
+        ControleurAcces(porte, lecteur).interroger_lecteur()
+
+        # Et : interrogation une seconde fois sans re-présenter le badge
+        ControleurAcces(porte, lecteur).interroger_lecteur()
+
+        # Alors : un seul bip doit avoir retenti
+        self.assertEqual(1, lecteur.nombre_appels_bip)
+
    
 if __name__ == "__main__":
     unittest.main()
