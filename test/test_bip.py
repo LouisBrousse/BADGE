@@ -32,7 +32,6 @@ class TestBip(unittest.TestCase):
         # Alors: 2 bips retentissent
         self.assertEqual(2, lecteur.nombre_appels_bip)
             
-    
     def test_bip_no_badge(self):
         # Étant donné: pas de bagde présenté
         lecteur = Lecteurfake()

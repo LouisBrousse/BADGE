@@ -8,21 +8,26 @@ class ControleurAcces:
         self.__porte = porte
 
     def interroger_lecteur(self):
-        badge = self.__lecteur.poll()  
+        try:
+            badge = self.__lecteur.poll()  
 
-        if badge is None:
-            self.led_aucun()
-            return
+            if badge is None:
+                self.led_aucun()
+                return
 
-        if self.__lecteur.isBadgeBlocked():
-            self.led_bloque()
-            self.bip_negatif()
-        elif self.__porte.demander_ouverture():
-            self.led_positif()
-            self.bip_positif()
-        else:
+            if self.__lecteur.isBadgeBlocked():
+                self.led_bloque()
+                self.bip_negatif()
+            elif self.__porte.demander_ouverture():
+                self.led_positif()
+                self.bip_positif()
+            else:
+                self.led_negatif()
+                self.bip_negatif()
+
+        except RuntimeError:
+            print("⚠️ Erreur matérielle du lecteur !")
             self.led_negatif()
-            self.bip_negatif()
 
     def bip_positif(self):
         self.__lecteur.bip()
