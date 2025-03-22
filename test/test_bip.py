@@ -10,7 +10,7 @@ from porte_spy import PorteSpy, Portedefaillante
 from controleur_acces import ControleurAcces
 
 class TestBip(unittest.TestCase):
-    def test_signal_ouvert_bip(self):
+    def test_bip_badge(self):
         # Étant donné: Un badge valide présenté au lecteur
         lecteur = Lecteurfake()
         lecteur.simuler_presentation_badge()
@@ -21,7 +21,7 @@ class TestBip(unittest.TestCase):
         # Alors: un bip retentit
         self.assertEqual(1, lecteur.nombre_appels_bip)
 
-    def test_signal_non_ouvert_bip(self):
+    def test_bip_badge_porte_defaillante(self):
         # Étant donné: Un badge valide présenté au lecteur
         lecteur = Lecteurfake()
         lecteur.simuler_presentation_badge()
@@ -33,7 +33,7 @@ class TestBip(unittest.TestCase):
         self.assertEqual(2, lecteur.nombre_appels_bip)
             
     
-    def test_badge_invalid_bip(self):
+    def test_bip_no_badge(self):
         # Étant donné: pas de bagde présenté
         lecteur = Lecteurfake()
         # ET une porte
@@ -43,7 +43,7 @@ class TestBip(unittest.TestCase):
         # Alors: aucun bip ne retentit
         self.assertEqual(0, lecteur.nombre_appels_bip)
 
-    def test_badge_bip_defaillant(self):
+    def test_bip_defaillant_badge(self):
         # Étant donné: Un badge valide présenté au lecteur
         lecteur = Lecteurfake()
         lecteur.simuler_presentation_badge()   
@@ -56,7 +56,7 @@ class TestBip(unittest.TestCase):
         # Alors: aucun bip ne retentit
         self.assertEqual(0, lecteur.nombre_appels_bip)
     
-    def test_badge_bloque_bip_defaillant(self):
+    def test_bip_defaillant_badge_bloque(self):
         # Étant donné: Un badge valide présenté au lecteur
         lecteur = Lecteurfake()
         lecteur.simuler_presentation_badge()

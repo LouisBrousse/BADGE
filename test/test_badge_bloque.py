@@ -11,19 +11,6 @@ from controleur_acces import ControleurAcces
 
 class TestBadgeBloque(unittest.TestCase):
 
-    def test_badge_bloque_led_rouge(self):
-        # Étant donné: Un badge bloqué présenté au lecteur
-        lecteur = Lecteurfake()
-        lecteur.simuler_presentation_badge()
-        # ET une porte
-        porte = PorteSpy()
-        # ET un badge bloqué
-        lecteur.simuler_badge_bloque()
-        # Quand: interrogation du lecteur
-        ControleurAcces(porte, lecteur).interroger_lecteur()
-        # Alors: la led rouge (rouge + bleu) clignote deux fois
-        self.assertEqual([(True, False, False), (True, False, False)], lecteur.couleur_affiches)
-
     def test_badge_bloque_acces_refuse(self):
         # Étant donné: Un badge bloqué présenté au lecteur
         lecteur = Lecteurfake()
@@ -36,6 +23,32 @@ class TestBadgeBloque(unittest.TestCase):
         ControleurAcces(porte, lecteur).interroger_lecteur()
         # Alors: la porte ne doit pas se déverrouiller
         self.assertFalse(porte.signal_ouverture_reçu)
-        
+    
+    def test_bip_badge_bloque(self):
+        # Étant donné: Un badge valide présenté au lecteur
+        lecteur = Lecteurfake()
+        lecteur.simuler_presentation_badge()
+        # ET une porte
+        porte = PorteSpy()
+        # ET un badge bloqué
+        lecteur.simuler_badge_bloque()
+        # Quand: interrogation lecteur
+        ControleurAcces(porte, lecteur).interroger_lecteur()
+        # Alors: 2 bips retentissent
+        self.assertEqual(2, lecteur.nombre_appels_bip)
+    
+    def testled_badge_bloque(self):
+        # Étant donné: Un badge bloqué présenté au lecteur
+        lecteur = Lecteurfake()
+        lecteur.simuler_presentation_badge()
+        # ET une porte
+        porte = PorteSpy()
+        # ET un badge bloqué
+        lecteur.simuler_badge_bloque()
+        # Quand: interrogation du lecteur
+        ControleurAcces(porte, lecteur).interroger_lecteur()
+        # Alors: la led rouge clignote deux fois
+        self.assertEqual([(True, False, False), (True, False, False)], lecteur.couleur_affiches)
+
 if __name__ == "__main__":
     unittest.main()

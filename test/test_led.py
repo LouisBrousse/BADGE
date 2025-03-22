@@ -11,7 +11,7 @@ from controleur_acces import ControleurAcces
 
 class TestLed (unittest.TestCase):
     
-    def test_badge_lumiere_verte(self):
+    def test_led_badge(self):
         # Étant donné: Un badge valide présenté au lecteur
         lecteur = Lecteurfake()
         lecteur.simuler_presentation_badge()
@@ -22,7 +22,7 @@ class TestLed (unittest.TestCase):
         # Alors: la lumière vert s'allume
         self.assertEqual([(False, True, False)], lecteur.couleur_affiches)
 
-    def test_badge_lumiere_violette(self):
+    def test_led_badge_porte_defaillante_violette(self):
         # Étant donné: Un badge valide présenté au lecteur
         lecteur = Lecteurfake()
         lecteur.simuler_presentation_badge()
@@ -33,7 +33,7 @@ class TestLed (unittest.TestCase):
         # Alors: la lumière violette s'allume
         self.assertEqual([(True, False, True), (True, False, True)], lecteur.couleur_affiches)
     
-    def test_badge_invalid_led(self):
+    def test_led_no_badge(self):
         # Étant donné: pas de bagde présenté
         lecteur = Lecteurfake()
         # ET une porte
@@ -43,7 +43,7 @@ class TestLed (unittest.TestCase):
         # Alors: aucune lumière ne s'allume
         self.assertEqual([(False, False, False)], lecteur.couleur_affiches)
     
-    def test_badge_led_defaillant(self):
+    def test_led_defaillant_badge(self):
         # Étant donné: Un badge valide présenté au lecteur
         lecteur = Lecteurfake()
         lecteur.simuler_presentation_badge()
@@ -56,7 +56,7 @@ class TestLed (unittest.TestCase):
         # Alors: aucun signal lumineux
         self.assertEqual([(False, False, False)], lecteur.couleur_affiches)
     
-    # def test_led_ne_reagit_pas_quand_defaillante(self):
+    # def test_led_ne_reagit_pas_quand_defaillante(self):             ### REDONDANT, On déjà fait ces tests de manières unitaires.
     #     # Étant donné: Un badge valide présenté au lecteur
     #     lecteur = Lecteurfake()
     #     lecteur.simuler_presentation_badge()

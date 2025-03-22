@@ -21,7 +21,7 @@ class TestBadge(unittest.TestCase):
         # Alors: signal d’ouverture (accès donné ou pas)
         self.assertTrue(porte.signal_ouverture_reçu)
     
-    def test_badge_invalid_badge(self):
+    def test_badge_no_badge(self):
         # Étant donné: pas de bagde présenté
         lecteur = Lecteurfake()
         # ET une porte
@@ -30,8 +30,8 @@ class TestBadge(unittest.TestCase):
         ControleurAcces(porte, lecteur).interroger_lecteur()
         # Alors: la porte ne doit pas se déverrouiller
         self.assertFalse(porte.signal_ouverture_reçu)
-        self.assertEqual([(False, False, False)], lecteur.couleur_affiches)  
-    
+        self.assertEqual([(False, False, False)], lecteur.couleur_affiches)    
+
     def test_poll_consomme_le_badge(self):
         # Étant donné: Un badge valide simulé
         lecteur = Lecteurfake()

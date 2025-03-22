@@ -8,37 +8,47 @@ class ControleurAcces:
         self.__porte = porte
 
     def interroger_lecteur(self):
-        if self.__lecteur.poll() is not None:
-            if self.__lecteur.isBadgeBlocked():
-                self.led_bloque()
-            else:
-                if self.__porte.demander_ouverture():
-                    self.led_positif()  
-                    self.bip_positif()  
-                else:
-                    self.led_negatif()  
-                    self.bip_negatif()  
-        else:
+        badge = self.__lecteur.poll()  
+
+        if badge is None:
             self.led_aucun()
-                
-    
+            return
+
+        if self.__lecteur.isBadgeBlocked():
+            self.led_bloque()
+            self.bip_negatif()
+        elif self.__porte.demander_ouverture():
+            self.led_positif()
+            self.bip_positif()
+        else:
+            self.led_negatif()
+            self.bip_negatif()
+
     def bip_positif(self):
         self.__lecteur.bip()
 
     def bip_negatif(self):
-        for i in range(2):
+        self.bip_repetition(2)
+
+    def bip_repetition(self, nombre: int):
+        for _ in range(nombre):
             self.__lecteur.bip()
-    
+
     def led_positif(self):
         self.__lecteur.led(False, True, False)
 
     def led_negatif(self):
-        for i in range(2):
-            self.__lecteur.led(True, False, True)
-    
+        self.led_repetition(2, True, False, True)
+
     def led_bloque(self):
-        for i in range(2):
-            self.__lecteur.led(True, False, False)
+        self.led_repetition(2, True, False, False)
 
     def led_aucun(self):
         self.__lecteur.led(False, False, False)
+
+    def led_repetition(self, nombre: int, rouge: bool, vert: bool, bleu: bool):
+        for _ in range(nombre):
+            self.__lecteur.led(rouge, vert, bleu)
+
+    def redemarrer_systeme(self):
+        self.__lecteur.redemarrer()
