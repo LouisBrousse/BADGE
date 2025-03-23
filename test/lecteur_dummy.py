@@ -8,12 +8,10 @@ class LecteurDummy(Lecteur):
         self.badgebloque = False
 
     def poll(self) -> int | None:
-        raise RuntimeError("Erreur matérielle : Impossible de lire un badge.")
-
+        raise RuntimeError()
 
     def isBadgeBlocked(self) -> bool:
         return False
-
 
     def bip(self) -> int | None:
         return None
