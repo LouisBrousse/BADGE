@@ -37,7 +37,7 @@ class TestBadgeBloque(unittest.TestCase):
         # Alors: 2 bips retentissent
         self.assertEqual(2, lecteur.nombre_appels_bip)
     
-    def testled_badge_bloque(self):
+    def test_led_badge_bloque(self):
         # Étant donné: Un badge bloqué présenté au lecteur
         lecteur = Lecteurfake()
         lecteur.simuler_presentation_badge()
