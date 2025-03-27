@@ -5,10 +5,10 @@ import os
 # Ajouter le dossier 'src' au chemin d'importation
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
-from lecteur_fake import Lecteurfake
-from lecteur_dummy import LecteurDummy
+from .utils.lecteur_fake import Lecteurfake
+from .utils.lecteur_dummy import LecteurDummy
 from controleur_acces import ControleurAcces
-from porte_spy import PorteSpy
+from .utils.porte_spy import PorteSpy
 
 
 class TestBadge(unittest.TestCase):
