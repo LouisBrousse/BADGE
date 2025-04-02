@@ -1,6 +1,7 @@
 import unittest
 import sys
 import os
+from unittest.mock import MagicMock
 
 # Ajouter le dossier 'src' au chemin d'importation
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
@@ -36,17 +37,19 @@ class TestLed (unittest.TestCase):
     def test_led_no_badge(self):
         # Étant donné: pas de bagde présenté
         lecteur = Lecteurfake()
+        lecteur.led = MagicMock()
         # ET une porte
         porte = PorteSpy()
         # Quand: interrogation lecteur
         ControleurAcces(porte, lecteur).interroger_lecteur()
         # Alors: aucune lumière ne s'allume
-        self.assertEqual([(False, False, False)], lecteur.couleur_affiches)
+        lecteur.led.assert_not_called()
     
     def test_led_defaillant_badge(self):
         # Étant donné: Un badge valide présenté au lecteur
         lecteur = Lecteurfake()
         lecteur.simuler_presentation_badge()
+        lecteur.led = MagicMock()
         # ET une porte
         porte = PorteSpy()
         # ET une défaillance de la lumière
@@ -54,7 +57,7 @@ class TestLed (unittest.TestCase):
         # Quand: interrogation lecteur
         ControleurAcces(porte, lecteur).interroger_lecteur()
         # Alors: aucun signal lumineux
-        self.assertEqual([(False, False, False)], lecteur.couleur_affiches)
+        lecteur.led.assert_not_called()
     
         
 if __name__ == "__main__":
