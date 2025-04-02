@@ -5,8 +5,8 @@ import os
 # Ajouter le dossier 'src' au chemin d'importation
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
-from lecteur_fake import Lecteurfake
-from porte_spy import PorteSpy
+from .utils.lecteur_fake import Lecteurfake
+from .utils.porte_spy import PorteSpy
 from controleur_acces import ControleurAcces
 
 class TestBadgeMulti(unittest.TestCase):
@@ -40,12 +40,14 @@ class TestBadgeMulti(unittest.TestCase):
         # Étant donné: Deux badges bloqués présentés successivement
         lecteur = Lecteurfake()
         porte = PorteSpy()
-        
+        controleur = ControleurAcces(porte, lecteur)
+
         # Quand: on présente deux fois un badge bloqué
+        
         for _ in range(2):
             lecteur.simuler_presentation_badge()
-            lecteur.simuler_badge_bloque()
-            ControleurAcces(porte, lecteur).interroger_lecteur()
+            controleur.bloquer_badge()
+            controleur.interroger_lecteur()
         
         # Alors: chaque badge déclenche la LED rouge clignotante deux fois
         self.assertEqual([(True, False, False), (True, False, False)] * 2, lecteur.couleur_affiches)
@@ -54,12 +56,12 @@ class TestBadgeMulti(unittest.TestCase):
         # Étant donné: Deux badges bloqués présentés successivement
         lecteur = Lecteurfake()
         porte = PorteSpy()
-        
+        controleur = ControleurAcces(porte, lecteur)
         # Quand: on présente deux fois un badge bloqué
         for _ in range(2):
             lecteur.simuler_presentation_badge()
-            lecteur.simuler_badge_bloque()
-            ControleurAcces(porte, lecteur).interroger_lecteur()
+            controleur.bloquer_badge()
+            controleur.interroger_lecteur()
         
         # ET deux bips par badge bloqué (donc 4 au total)
         self.assertEqual(4, lecteur.nombre_appels_bip)   

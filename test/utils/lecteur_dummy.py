@@ -5,13 +5,11 @@ class LecteurDummy(Lecteur):
     def __init__(self) -> None:
         self.nombre_appels_bip = 0
         self.couleur_affiches = []
-        self.badgebloque = False
+        self.defaillance_led = False
+        self.defaillance_bip = False
 
     def poll(self) -> int | None:
         raise RuntimeError()
-
-    def isBadgeBlocked(self) -> bool:
-        return False
 
     def bip(self) -> int | None:
         return None
@@ -21,3 +19,6 @@ class LecteurDummy(Lecteur):
     
     def simuler_presentation_badge(self):
         self.poll()
+
+    def isDefaillant(self) -> bool:
+        return self.defaillance_led or self.defaillance_bip

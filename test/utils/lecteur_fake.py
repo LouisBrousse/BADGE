@@ -8,15 +8,12 @@ class Lecteurfake(Lecteur):
         self.couleur_affiches = []
         self.defaillance_led = False
         self.defaillance_bip = False
-        self.badgebloque = False
 
     def poll(self) -> int | None:
         numero_detecte = self.__numero_badge_detecte
         self.__numero_badge_detecte = None 
         return numero_detecte
 
-    def isBadgeBlocked(self):
-        return self.badgebloque
     
     def bip(self) -> int | None:
         if self.defaillance_bip:
@@ -25,7 +22,6 @@ class Lecteurfake(Lecteur):
     
     def led(self, r: bool, g: bool, b: bool):
         if self.defaillance_led:
-            self.couleur_affiches.append((False, False, False))
             return
         self.couleur_affiches.append((r, g, b))
     
@@ -40,6 +36,9 @@ class Lecteurfake(Lecteur):
 
     def simuler_presentation_badge(self) -> None:
         self.__numero_badge_detecte = 0
+    
+    def isDefaillant(self) -> bool:
+        return self.defaillance_led or self.defaillance_bip
     
     def redemarrer(self):
         self.__numero_badge_detecte = None 
